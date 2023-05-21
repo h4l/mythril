@@ -25,9 +25,15 @@ jobs:
           poetry lock
           python gen_version_vars.py > docker-bake.versions.json
 
-          echo "dependencies_changed=$(\
-            [[ $(git status --porcelain) != "" ]] && echo true || echo false
-          )" >> "$GITHUB_ENV"
+          if [[ $(git status --porcelain) != "" ]]; then
+            echo "Dependencies Changed:"
+            git diff --status
+            git diff
+            echo "dependencies_changed=true" >> "$GITHUB_ENV"
+          else
+            echo "No Dependencies Changed"
+            echo "dependencies_changed=false" >> "$GITHUB_ENV"
+          fi
 
       - name: Create Pull Request for Dependency Changes
         uses: peter-evans/create-pull-request@v5
