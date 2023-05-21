@@ -1,4 +1,4 @@
-name: "Build the Mythril container images for linux/amd64 and linux/arm64"
+name: "Build the Mythril Container Images for linux/amd64 and linux/arm64"
 on: push
 
 env:
@@ -22,7 +22,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build and push
+      - name: Build & Test
         id: bake
         uses: docker/bake-action@v3
         with:
@@ -66,7 +66,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build and push
+      - name: Build, Test and Push
         id: bake
         uses: docker/bake-action@v3
         with:
@@ -75,7 +75,7 @@ jobs:
           sbom: true
           push: true
 
-      - name: Sign container images with Sigstore Cosign
+      - name: Sign Container Images with Sigstore Cosign
         env:
           BAKE_META: ${{ steps.bake.outputs.metadata }}
         run: |
