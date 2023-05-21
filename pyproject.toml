@@ -1,0 +1,16 @@
+# This just serves as a way of tracking and updating the version of mythril and
+# its dependencies.
+[tool.poetry]
+name = "mythril-image"
+version = "1.0.0"
+description = "ConsenSys/mythril Linux container image. Cross-compiled for arm64 and amd64."
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+mythril = "<1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

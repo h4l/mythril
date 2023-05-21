@@ -1,0 +1,83 @@
+name: "Build the Mythril container images for linux/amd64 and linux/arm64"
+on: push
+
+env:
+  REGISTRY: ghcr.io
+  TAG_PREFIX: ghcr.io/${{ github.repository }}
+
+jobs:
+  build:
+    name: Build Without Publishing
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push
+        id: bake
+        uses: docker/bake-action@v3
+        with:
+          files: docker-bake.hcl,docker-bake.versions.json
+          provenance: true
+          sbom: true
+          push: false
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
+
+  build-publish:
+    name: Build, Publish & Sign
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      # Required for Cosign to create ephemeral credentials from the runner's
+      # GitHub OIDC Token.
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.0.3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push
+        id: bake
+        uses: docker/bake-action@v3
+        with:
+          files: docker-bake.hcl,docker-bake.versions.json
+          provenance: true
+          sbom: true
+          push: true
+
+      - name: Sign container images with Sigstore Cosign
+        env:
+          BAKE_META: ${{ steps.bake.outputs.metadata }}
+        run: |
+          set -xeuo pipefail
+          # Use a loop rather than xargs so that -x can show what's happening
+          readarray -t image_digests <<<$(
+            jq <<<$BAKE_META -r '
+              .[]
+              | select(.["image.name"]? and .["containerimage.digest"]?)
+              | "\(.["image.name"])@\(.["containerimage.digest"])"
+            '
+          )
+          for image_digest in "${image_digests[@]}"; do
+            cosign sign --yes --recursive "${image_digest:?}"
+          done
