@@ -8,9 +8,9 @@ jobs:
   update-dependencies:
     name: Update Dependencies & PR if Changed
     runs-on: ubuntu-latest
-    # permissions:
-    #   contents: write
-    #   pull-requests: write
+    permissions:
+      contents: write
+      pull-requests: write
 
     steps:
       - name: Checkout
@@ -38,9 +38,6 @@ jobs:
             echo "No Dependencies Changed"
             echo "dependencies_changed=false" >> "$GITHUB_ENV"
           fi
-
-      - name: Debug
-        run: env
 
       - name: Create Pull Request for Dependency Changes
         uses: peter-evans/create-pull-request@v5
