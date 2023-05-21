@@ -1327,12 +1327,12 @@ files = [
 
 [[package]]
 name = "mythril"
-version = "0.23.20"
+version = "0.23.22"
 description = "Security analysis tool for Ethereum smart contracts"
 optional = false
 python-versions = ">=3.6.0"
 files = [
-    {file = "mythril-0.23.20.tar.gz", hash = "sha256:402e5ca265aa507c17eb0a571e214cb4145346d12271fe3ab553275ec3af7103"},
+    {file = "mythril-0.23.22.tar.gz", hash = "sha256:1fb84e6a6d386a0789adedaf3465e294ff7cff92ae6e1ba7000aac00bd6e625c"},
 ]
 
 [package.dependencies]
@@ -1731,7 +1731,7 @@ name = "pycparser"
 version = "2.21"
 description = "C parser in Python"
 optional = false
-python-versions = "*"
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 files = [
     {file = "pycparser-2.21-py2.py3-none-any.whl", hash = "sha256:8ee45429555515e1f6b185e78100aea234072576aa43ab53aefcae078162fca9"},
     {file = "pycparser-2.21.tar.gz", hash = "sha256:e644fdec12f7872f86c58ff790da456218b10f863970249516d60a5eaca77206"},
@@ -2230,4 +2230,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "eb5b0e8620ca6c15caca51032f6426169a943a3e6916b4f484d1cf26765abc81"
+content-hash = "0e8426c777aec2380c672db7c4100382eac90dff732daff6ee5cdc6402147f68"
