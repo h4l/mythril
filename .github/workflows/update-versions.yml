@@ -8,6 +8,10 @@ jobs:
   update-dependencies:
     name: Update Dependencies & PR if Changed
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
