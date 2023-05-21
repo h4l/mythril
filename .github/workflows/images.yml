@@ -1,5 +1,10 @@
 name: "Build the Mythril Container Images for linux/amd64 and linux/arm64"
-on: push
+on:
+  push:
+    paths:
+      - "docker*"
+      - "Dockerfile"
+      - "poetry.lock"
 
 env:
   REGISTRY: ghcr.io
