@@ -6,7 +6,7 @@ on:
 
 jobs:
   update-dependencies:
-    name: Build Without Publishing
+    name: Update Dependencies & PR if Changed
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

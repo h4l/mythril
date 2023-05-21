@@ -4,6 +4,7 @@
 name = "mythril-image"
 version = "1.0.0"
 description = "ConsenSys/mythril Linux container image. Cross-compiled for arm64 and amd64."
+authors = ["Hal Blackburn <h4l@users.noreply.github.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
