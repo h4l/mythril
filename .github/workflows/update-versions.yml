@@ -1,8 +1,6 @@
 name: "Update Mythril and Dependency Versions"
 on:
   workflow_dispatch:
-  schedule: # daily
-    - cron: 39 4 * * *
 
 jobs:
   update-dependencies:
