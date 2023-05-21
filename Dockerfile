@@ -73,8 +73,8 @@ ENV PATH=/build_env/bin:$PATH
 RUN pip3 install --upgrade pip auditwheel
 
 # We need rust to build blake2b
-COPY --from=rust --link /root/.cargo /root/.cargo
-COPY --from=rust --link /root/.rustup /root/.rustup
+COPY --from=rust /root/.cargo /root/.cargo
+COPY --from=rust /root/.rustup /root/.rustup
 ENV CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse \
     PATH=/root/.cargo/bin:$PATH \
     # Tell pyo3 to use our target arch python when compiling
@@ -116,8 +116,8 @@ RUN pip wheel -r /run/requirements-remaining.txt
 RUN --mount=from=mythril-src,source=/,target=/mythril-src,rw \
     pip wheel --no-deps /mythril-src
 
-COPY --from=blake2b-wheel-build --link /wheels/* /wheels
-COPY --from=z3-solver-wheel-build --link /wheels/* /wheels
+COPY --from=blake2b-wheel-build /wheels /wheels
+COPY --from=z3-solver-wheel-build /wheels /wheels
 
 
 # Solidity Compiler Version Manager. This provides cross-platform solc builds.
