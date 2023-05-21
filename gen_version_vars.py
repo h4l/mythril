@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Generate the contents of docker-bake.versions.json from poetry.lock"""
 import json
-import tomllib
+import toml
 
 
 def main():
-    with open("poetry.lock", "rb") as f:
-        lockfile = tomllib.load(f)
+    with open("poetry.lock") as f:
+        lockfile = toml.loads(f.read())
 
     packages = {p["name"]: p for p in lockfile["package"]}
 
