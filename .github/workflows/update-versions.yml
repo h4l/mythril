@@ -7,7 +7,7 @@ jobs:
   update-dependencies:
     name: Update Dependencies & PR if Changed
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: ${{ github.event.pull_request.user.login == 'dependabot[bot]' && (github.actor == 'dependabot[bot]' || github.actor == github.repository_owner) }}
     permissions:
       contents: write
       pull-requests: write
