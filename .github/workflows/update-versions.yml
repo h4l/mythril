@@ -22,4 +22,4 @@ jobs:
         run: gh pr merge --auto --merge "${PULL_REQUEST:?}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PULL_REQUEST: ${{ github.event.pull_request.url }}
+          PULL_REQUEST: ${{ github.event.pull_request.html_url }}
