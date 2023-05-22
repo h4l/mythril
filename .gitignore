@@ -1,4 +1,6 @@
 .*
-!.git*
+!.dockerignore
 !.editorconfig
+!.git*
+docker/locked-versions
 build

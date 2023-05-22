@@ -5,6 +5,32 @@ ARG Z3SOLVER_VERSION
 ARG _DEBIAN_VERSION=bullseye
 ARG _PYTHON_VERSION=3.9
 
+
+# Here we extract dependency version numbers from the Poetry lockfile. We use
+# the number of mythril to determine the tag of the main image. And we use the
+# requirements.txt file to define the exact python packages we install in the
+# main image to be from the listed versions. (The requirements file contains
+# fixed versions and hashes of acceptable artefacts.)
+FROM python:3.11-slim AS generate-locked-versions
+RUN pip install 'poetry >=1, <2'
+WORKDIR /project
+COPY pyproject.toml poetry.lock /project/
+# Fail if the lockfile is not in sync with pyproject.toml
+RUN poetry lock --check
+RUN poetry export --format=requirements.txt \
+  # remove line continuations so that we can grep lines from the file later
+  |  python -c 'from sys import stdin; print(stdin.read().replace("\\\n", ""))' \
+  > requirements.txt
+RUN poetry export --format=constraints.txt > constraints.txt
+COPY gen_version_vars.py /project
+RUN python gen_version_vars.py > docker-bake.versions.json
+
+
+FROM scratch AS locked-versions
+COPY --from=generate-locked-versions \
+  /project/requirements.txt /project/constraints.txt /project/docker-bake.versions.json /
+
+
 # Because we're cross-compiling, we always want to be running the native arch of
 # the builder for everything except the final output stages.
 FROM --platform=${BUILDARCH} debian:${_DEBIAN_VERSION:?} as base

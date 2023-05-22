@@ -6,10 +6,6 @@ variable "MYTHRIL_VERSION" {
   default = "0.23.22"
 }
 
-variable "Z3SOLVER_VERSION" {
-  default = "4.12.2.0"
-}
-
 variable "BLAKE2B_VERSION" {
   default = "0.2.0"
 }
@@ -68,19 +64,15 @@ group "default" {
   targets = ["myth", "myth-smoke-test"]
 }
 
+target "locked-versions" {
+  target = "locked-versions"
+  output = ["type=local,dest=locked-versions"]
+}
+
 target "_base" {
-  context = "./docker"
-  dockerfile = "../Dockerfile"
-  labels = {
-    // "foo.bar" = "123",
-    // "time" = build_time()
-  }
   contexts = {
     mythril-src = "https://github.com/ConsenSys/mythril.git#v${MYTHRIL_VERSION}"
     blake2b-src = "https://github.com/ethereum/blake2b-py.git#v${BLAKE2B_VERSION}"
-  }
-  args = {
-    Z3SOLVER_VERSION = "==${Z3SOLVER_VERSION}"
   }
   platforms = [
     "linux/amd64",

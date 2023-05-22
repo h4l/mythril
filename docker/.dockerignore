@@ -1,0 +1,6 @@
+*
+!docker-entrypoint.sh
+!gen_version_vars.py
+!poetry.lock
+!pyproject.toml
+!sync-svm-solc-versions-with-solcx.sh

@@ -1,4 +1,0 @@
-# dev deps are insignificant, so not worth managing with Poetry, and they would
-# clutter up the lock file if added to the main one.
-poetry
-toml
