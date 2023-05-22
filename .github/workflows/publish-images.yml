@@ -3,9 +3,7 @@ on:
   push:
     branches: main
     paths:
-      - "docker*"
-      - "Dockerfile"
-      - "poetry.lock"
+      - "docker/*"
 
 env:
   REGISTRY: ghcr.io
@@ -42,6 +40,16 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+
+      - name: Extract Locked Dependency Version Variables
+        uses: docker/bake-action@v3
+        with:
+          workdir: ./docker
+          files: docker-bake.hcl
+          targets: locked-versions
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
 
       - name: Build, Test and Push
         id: bake

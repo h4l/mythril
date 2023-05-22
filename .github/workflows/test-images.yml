@@ -1,15 +1,11 @@
 name: "Build the Mythril Container Images for linux/amd64 and linux/arm64"
 on:
   pull_request:
-    # paths:
-    #   - "docker*"
-    #   - "Dockerfile"
-    #   - "poetry.lock"
-  push:
-    # paths:
-    #   - "docker*"
-    #   - "Dockerfile"
-    #   - "poetry.lock"
+    branches:
+      # TODO: main
+      - ci-setup
+    paths:
+      - "docker/*"
 
 env:
   REGISTRY: ghcr.io
@@ -18,7 +14,6 @@ env:
 jobs:
   build:
     name: Build & Test
-    if: github.ref != 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -32,11 +27,21 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build & Test
-        id: bake
+      - name: Extract Locked Dependency Version Variables
         uses: docker/bake-action@v3
         with:
-          files: docker-bake.hcl,docker-bake.versions.json
+          workdir: ./docker
+          files: docker-bake.hcl
+          targets: locked-versions
+          set: |
+            *.cache-from=type=gha
+            *.cache-to=type=gha,mode=max
+
+      - name: Build & Test
+        uses: docker/bake-action@v3
+        with:
+          workdir: ./docker
+          files: docker-bake.hcl,locked-versions/docker-bake.versions.json
           provenance: true
           sbom: true
           push: false
