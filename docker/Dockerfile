@@ -108,8 +108,10 @@ WORKDIR /wheels
 
 
 FROM cross-build AS z3-solver-wheel-build
-ARG Z3_SOLVER_VERSION
-RUN pip3 -vv wheel z3-solver${Z3_SOLVER_VERSION:-}
+RUN --mount=from=locked-versions,source=/,target=/run/locked-versions \
+  z3_version=$(grep -P '^z3-solver' /run/locked-versions/requirements.txt) && \
+  pip3 -vv wheel --constraint /run/locked-versions/constraints.txt \
+    --requirement <(echo "${z3_version:?}")
 # Prior to 4.12.2 z3-solver didn't tag arm64 wheels with valid metadata, so
 # auditwheel was needed to install them. It's no longer essential, but doesn't
 # hurt.
@@ -124,6 +126,10 @@ FROM cross-build AS blake2b-wheel-build
 # maturin to cross-compile using --target, but here pip invokes maturin for us,
 # so we need to use an envar to control the target arch.
 ENV CARGO_BUILD_TARGET=${ALT_TARGETARCH:?}-unknown-linux-gnu
+# We can't use the requirements file for blake2b because we install from the
+# source repo. However, the source repo tag is fixed via the lockfile, and the
+# actual resolved sha is logged in the image's provenance data created by docker
+# buildx.
 RUN --mount=from=blake2b-src,source=/,target=/wheels/blake2b-src,rw \
     pip3 -vv wheel ./blake2b-src
 
@@ -131,9 +137,10 @@ RUN --mount=from=blake2b-src,source=/,target=/wheels/blake2b-src,rw \
 FROM cross-build AS mythril-wheel-build
 # cython is optional but can be used to build some wheels, such as cytoolz
 RUN pip install cython
-RUN --mount=from=mythril-src,source=requirements.txt,target=/run/requirements.txt \
-    # ignore blake2b and z3-solver as we've already built them
-    grep -v -e blake2b -e z3-solver /run/requirements.txt \
+RUN --mount=from=locked-versions,source=requirements.txt,target=/run/requirements.txt \
+    # Ignore blake2b and z3-solver as we've already built them. Ignore mythril
+    # as we're installing it from the source repo.
+    grep -v -P '^(blake2b|z3-solver|mythril)' /run/requirements.txt \
     > /run/requirements-remaining.txt
 RUN pip wheel -r /run/requirements-remaining.txt
 
