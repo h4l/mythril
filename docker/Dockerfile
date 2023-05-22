@@ -1,10 +1,4 @@
 # syntax=docker/dockerfile:1
-ARG Z3SOLVER_VERSION
-# The Python version needs to be the version of Python used in the Debian
-# version, otherwise the built wheels won't be compatible.
-ARG _DEBIAN_VERSION=bullseye
-ARG _PYTHON_VERSION=3.9
-
 
 # Here we extract dependency version numbers from the Poetry lockfile. We use
 # the number of mythril to determine the tag of the main image. And we use the
@@ -31,9 +25,13 @@ COPY --from=generate-locked-versions \
   /project/requirements.txt /project/constraints.txt /project/docker-bake.versions.json /
 
 
+# The Python version needs to be the version of Python used in the Debian
+# version, otherwise the built wheels won't be compatible.
+FROM python:3.9.16-slim-bullseye AS python-slim
+
 # Because we're cross-compiling, we always want to be running the native arch of
 # the builder for everything except the final output stages.
-FROM --platform=${BUILDARCH} debian:${_DEBIAN_VERSION:?} as base
+FROM --platform=${BUILDARCH} debian:bullseye-20230502 as base
 ARG BUILDARCH TARGETARCH
 
 # Define envars for the alternative arch names some programs use
@@ -154,7 +152,7 @@ RUN cargo install --target ${ALT_TARGETARCH:?}-unknown-linux-gnu svm-rs
 RUN mkdir -p /svm-rs/bin && cd ~/.cargo/bin/ && cp svm solc /svm-rs/bin/
 
 
-FROM python:${_PYTHON_VERSION:?}-slim AS myth
+FROM python-slim AS myth
 # Space-separated version string without leading 'v' (e.g. "0.4.21 0.4.22")
 ARG INSTALLED_SOLC_VERSIONS
 
