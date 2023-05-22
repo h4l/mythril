@@ -1,48 +1,22 @@
-name: "Update Mythril and Dependency Versions"
+name: "Auto-merge Dependabot PR"
 on:
-  workflow_dispatch:
+  pull_request_target:
+    types: [opened, reopened]
 
 jobs:
   update-dependencies:
     name: Update Dependencies & PR if Changed
     runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
     permissions:
       contents: write
       pull-requests: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup
-        run: |
-          pip install -r requirements-dev.txt
-
-      - name: Update Dependency Versions
-        run: |
-          [[ $(git status --porcelain) == "" ]] || {
-            echo "git checkout is not clean before updating";
-            exit 1;
-          }
-          poetry lock
-          python gen_version_vars.py > docker-bake.versions.json
-
-          if [[ $(git status --porcelain) != "" ]]; then
-            echo "Dependencies Changed:"
-            git diff --stat
-            git diff
-            echo "dependencies_changed=true" >> "$GITHUB_ENV"
-          else
-            echo "No Dependencies Changed"
-            echo "dependencies_changed=false" >> "$GITHUB_ENV"
-          fi
-
-      - name: Create Pull Request for Dependency Changes
-        uses: peter-evans/create-pull-request@v5
-        if: env.dependencies_changed == 'true'
-        with:
-          commit-message: "chore: auto-update dependencies"
-          title: 🤖 Update Dependencies
-          branch: auto-update-dependencies
-          labels: "dependency-update,automated"
-          body:
+      - name: Auto-merge Dependabot PR
+        if: |
+          startswith(github.event.pull_request.title, 'build(deps): bump')
+        run: gh pr merge --auto --merge "${PULL_REQUEST:?}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PULL_REQUEST: ${{ github.event.pull_request.url }}
