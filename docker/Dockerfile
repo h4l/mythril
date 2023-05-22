@@ -27,11 +27,11 @@ COPY --from=generate-locked-versions \
 
 # The Python version needs to be the version of Python used in the Debian
 # version, otherwise the built wheels won't be compatible.
-FROM python:3.9.16-slim-bullseye AS python-slim
+FROM python:3.9-slim AS python-slim
 
 # Because we're cross-compiling, we always want to be running the native arch of
 # the builder for everything except the final output stages.
-FROM --platform=${BUILDARCH} debian:bullseye-20230502 as base
+FROM --platform=${BUILDARCH} debian:bullseye as base
 ARG BUILDARCH TARGETARCH
 
 # Define envars for the alternative arch names some programs use

@@ -4,7 +4,4 @@ updates:
     directory: "/docker"
     schedule:
       interval: "daily"
-  - package-ecosystem: "docker"
-    directory: "/docker"
-    schedule:
-      interval: "daily"
+    versioning-strategy: lockfile-only
