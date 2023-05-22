@@ -30,6 +30,10 @@ variable "GITHUB_RUN_ATTEMPT" {
   default = ""
 }
 
+variable "GITHUB_REPOSITORY" {
+  default = ""
+}
+
 function "build_id" {
   params = []
   result = regex(
@@ -60,6 +64,20 @@ function "tags" {
   )
 }
 
+function "labels" {
+  params = []
+  result = merge(
+    {
+      "org.opencontainers.image.title" = "mythril",
+      "org.opencontainers.image.description" = "Security analysis tool for EVM bytecode",
+      "org.opencontainers.image.version" = "v${MYTHRIL_VERSION}"
+    },
+    CI ? {
+      "org.opencontainers.image.source" = "https://github.com/${GITHUB_REPOSITORY}"
+    } : {}
+  )
+}
+
 group "default" {
   targets = ["myth", "myth-smoke-test"]
 }
@@ -78,6 +96,7 @@ target "_base" {
     "linux/amd64",
     "linux/arm64"
   ]
+  labels = labels()
 }
 
 target "myth" {
