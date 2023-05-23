@@ -13,6 +13,12 @@ jobs:
       pull-requests: write
 
     steps:
+      - uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92
+        id: generate-token
+        with:
+          app_id: ${{ secrets.APP_ID }}
+          private_key: ${{ secrets.APP_PRIVATE_KEY }}
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -21,5 +27,5 @@ jobs:
           startswith(github.event.pull_request.title, 'build(deps): bump')
         run: gh pr merge --auto --merge "${PULL_REQUEST:?}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
           PULL_REQUEST: ${{ github.event.pull_request.html_url }}
