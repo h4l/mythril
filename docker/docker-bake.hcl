@@ -62,6 +62,9 @@ function "build_time" {
 function "tag_versions" {
   params = []
   result = CI ? [
+    // Assume we're always publishing a build of the most recent myth version,
+    // so :latest is reasonable.
+    "latest",
     "${MYTHRIL_VERSION}",
     "${MYTHRIL_VERSION}-${build_id()}",
     "${MYTHRIL_VERSION}-${build_time()}"
