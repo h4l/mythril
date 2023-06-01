@@ -62,7 +62,7 @@ jobs:
 
       - name: Enable Auto-Merge
         if: env.dependencies_changed == 'true'
-        run: gh pr merge --merge --auto "${PR:?}"
+        run: gh pr merge --squash --auto "${PR:?}"
         env:
           PR: ${{ steps.create-pr.outputs.pull-request-number}}
           GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
