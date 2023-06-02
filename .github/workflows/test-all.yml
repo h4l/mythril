@@ -1,0 +1,23 @@
+# This workflow only exists to cause the required "Built & Test" status check
+# to have passed in PRs without changes to files in docker/*. PRs with changes
+# to docker/* files are handled by test-images.
+#
+# The the test-images workflow never starts in PRs without docker/* changes, so
+# without this workflow, the PR waits forever for the un-started required
+# status check. See:
+# https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/troubleshooting-required-status-checks#handling-skipped-but-required-checks
+
+name: "Test non-image changes"
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "docker/*"
+
+jobs:
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "No build required"
