@@ -1393,12 +1393,12 @@ files = [
 
 [[package]]
 name = "mythril"
-version = "0.23.23"
+version = "0.23.24"
 description = "Security analysis tool for Ethereum smart contracts"
 optional = false
 python-versions = ">=3.6.0"
 files = [
-    {file = "mythril-0.23.23.tar.gz", hash = "sha256:1f3261432af54f390dbed8c1fd6d0a58a9139a2484b2e994354e7d1173e2eba4"},
+    {file = "mythril-0.23.24.tar.gz", hash = "sha256:6070506e88005340b2fa1e7b511a04787b2f3b094e1907223f0ccbec96adb4f0"},
 ]
 
 [package.dependencies]
