@@ -24,7 +24,7 @@ jobs:
           platforms: arm64
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@4b4e9c3e2d4531116a6f8ba8e71fc6e2cb6e6c8c
+        uses: docker/setup-buildx-action@4c0219f9ac95b02789c1075625400b2acbff50b1
 
       - name: Extract Locked Dependency Version Variables
         uses: docker/bake-action@ad0d2a9712378c502a7d5c590deb0d7a02d2a61d
