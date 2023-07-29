@@ -1,4 +1,4 @@
 {
-  "BASE_IMAGE_PYTHON": "docker.io/library/python:3.9.17-slim@sha256:1981920906ec577fb1a83bffca080ad659692688e80aee4cfe58d4642ac108e8",
+  "BASE_IMAGE_PYTHON": "docker.io/library/python:3.9.17-slim@sha256:8450dc652621a10cdd0428ba02527bca009013f343a9262996cac76a52123611",
   "BASE_IMAGE_DEBIAN": "docker.io/library/debian:bullseye-20230725@sha256:630454da4c59041a2bca987a0d54c68962f1d6ea37a3641bd61db42b753234f2"
 }
