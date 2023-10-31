@@ -828,13 +828,13 @@ tools = ["hypothesis (>=4.18.2,<5.0.0)"]
 
 [[package]]
 name = "eth-account"
-version = "0.9.0"
+version = "0.10.0"
 description = "eth-account: Sign Ethereum transactions and messages with local private keys"
 optional = false
 python-versions = ">=3.7, <4"
 files = [
-    {file = "eth-account-0.9.0.tar.gz", hash = "sha256:5f66ecb7bc52569924dfaf4a9add501b1c2a4901eec74e3c0598cd26d0971777"},
-    {file = "eth_account-0.9.0-py3-none-any.whl", hash = "sha256:35636ca14e9063dea233648703338be1a44e8cb1a2f9de1519d2b1be4655da59"},
+    {file = "eth-account-0.10.0.tar.gz", hash = "sha256:474a2fccf7286230cf66502565f03b536921d7e1fdfceba198e42160e5ac4bc1"},
+    {file = "eth_account-0.10.0-py3-none-any.whl", hash = "sha256:b7a83f506a8edf57926569e5f04471ce3f1700e572d3421b4ad0dad7a26c0978"},
 ]
 
 [package.dependencies]
@@ -844,7 +844,7 @@ eth-keyfile = ">=0.6.0"
 eth-keys = ">=0.4.0"
 eth-rlp = ">=0.3.0"
 eth-utils = ">=2.0.0"
-hexbytes = ">=0.1.0"
+hexbytes = ">=0.1.0,<0.4.0"
 rlp = ">=1.0.0"
 
 [package.extras]
@@ -1034,13 +1034,13 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "filelock"
-version = "3.13.0"
+version = "3.13.1"
 description = "A platform independent file lock."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "filelock-3.13.0-py3-none-any.whl", hash = "sha256:a552f4fde758f4eab33191e9548f671970f8b06d436d31388c9aa1e5861a710f"},
-    {file = "filelock-3.13.0.tar.gz", hash = "sha256:63c6052c82a1a24c873a549fbd39a26982e8f35a3016da231ead11a5be9dad44"},
+    {file = "filelock-3.13.1-py3-none-any.whl", hash = "sha256:57dbda9b35157b05fb3e58ee91448612eb674172fab98ee235ccb0b5bee19a1c"},
+    {file = "filelock-3.13.1.tar.gz", hash = "sha256:521f5f56c50f8426f5e03ad3b281b490a87ef15bc6c526f168290f0c7148d44e"},
 ]
 
 [package.extras]
