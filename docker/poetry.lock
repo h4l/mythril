@@ -893,13 +893,13 @@ test = ["eth-hash[pycryptodome]", "pytest (>=6.2.5,<7)", "pytest-xdist", "tox (=
 
 [[package]]
 name = "eth-typing"
-version = "3.5.1"
+version = "3.5.2"
 description = "eth-typing: Common type annotations for ethereum python packages"
 optional = false
 python-versions = ">=3.7.2, <4"
 files = [
-    {file = "eth-typing-3.5.1.tar.gz", hash = "sha256:e21a8b0688581a6765f72fa184d86d06c3949e354d4af5293798abc0b4255989"},
-    {file = "eth_typing-3.5.1-py3-none-any.whl", hash = "sha256:9d80c7d112a8774bddeb7278b1bc2f17ca4c062825476ce6bc9cba4d47956010"},
+    {file = "eth-typing-3.5.2.tar.gz", hash = "sha256:22bf051ddfaa35ff827c30090de167e5c5b8cc6d343f7f35c9b1c7553f6ab64d"},
+    {file = "eth_typing-3.5.2-py3-none-any.whl", hash = "sha256:1842e628fb1ffa929b94f89a9d33caafbeb9978dc96abb6036a12bc91f1c624b"},
 ]
 
 [package.dependencies]
@@ -913,13 +913,13 @@ test = ["pytest (>=7.0.0)", "pytest-xdist (>=2.4.0)"]
 
 [[package]]
 name = "eth-utils"
-version = "2.3.0"
+version = "2.3.1"
 description = "eth-utils: Common utility functions for python code that interacts with Ethereum"
 optional = false
 python-versions = ">=3.7,<4"
 files = [
-    {file = "eth-utils-2.3.0.tar.gz", hash = "sha256:085b42f5745f46d22a186fbd873d79f66a79171c02eccd78792d1dddd672f324"},
-    {file = "eth_utils-2.3.0-py3-none-any.whl", hash = "sha256:d539ac0bb1e759abb39f71efbcd77301eede86b4bf449278e4ad2fbf10aac67a"},
+    {file = "eth-utils-2.3.1.tar.gz", hash = "sha256:56a969b0536d4969dcb27e580521de35abf2dbed8b1bf072b5c80770c4324e27"},
+    {file = "eth_utils-2.3.1-py3-none-any.whl", hash = "sha256:614eedc5ffcaf4e6708ca39e23b12bd69526a312068c1170c773bd1307d13972"},
 ]
 
 [package.dependencies]
@@ -1517,12 +1517,12 @@ files = [
 
 [[package]]
 name = "mythril"
-version = "0.24.1"
+version = "0.24.2"
 description = "Security analysis tool for Ethereum smart contracts"
 optional = false
 python-versions = ">=3.7.0"
 files = [
-    {file = "mythril-0.24.1.tar.gz", hash = "sha256:a6c0fd2f86defc8fd205a55e2a2bb34189f0e0c1b227626f4a20db394fb5ac1d"},
+    {file = "mythril-0.24.2.tar.gz", hash = "sha256:0f75963b1cc1babd65b9f0a4afdc0c5f51d5a6ddf30fac191a7d88d63164a22a"},
 ]
 
 [package.dependencies]
